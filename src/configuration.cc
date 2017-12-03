@@ -1,4 +1,4 @@
-#include "defs.hh"
+#include "sensor_reader_info.hh"
 #include "filesystem.hh"
 #include "configuration.hh"
 #include <sstream>
@@ -72,13 +72,13 @@ configuration::ConfigFile::get(const std::string& key) {
 }
 
 std::string configuration::get_config_folder() {
-    std::string path(getenv(SENSOR_READER_INFO::HOME_ENV));
+    std::string path(getenv(SensorReaderInfo::HOME_ENV));
     path += "/.config";
     if(!filesystem::exists(path)) {
         filesystem::create_directories(path);
     }
     path += "/";
-    path += SENSOR_READER_INFO::NAME;;
+    path += SensorReaderInfo::NAME;;
     if(!filesystem::exists(path)) {
         filesystem::create_directories(path);
     }
@@ -87,7 +87,7 @@ std::string configuration::get_config_folder() {
 std::string configuration::get_config_file() {
     std::stringstream ss;
     ss << configuration::get_config_folder()
-       << "/" << SENSOR_READER_INFO::CONFIG_FILE_NAME;
+       << "/" << SensorReaderInfo::CONFIG_FILE_NAME;
     return ss.str();
 }
 

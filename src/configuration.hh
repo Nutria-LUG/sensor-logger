@@ -9,11 +9,11 @@
  */
 
 
-#ifndef CONFIGURATION_INCLUDE_GUARD_HH
-#define CONFIGURATION_INCLUDE_GUARD_HH 1
-
 #include <string>
 #include <map>
+
+#ifndef CONFIGURATION_INCLUDE_GUARD_HH
+#define CONFIGURATION_INCLUDE_GUARD_HH 1
 
 namespace configuration {
 
@@ -111,6 +111,7 @@ namespace configuration {
      */
     class Configuration {
     public:
+
         /*!
          * \brief Default constructor: initialize the data by the
          *        configuration file.
@@ -121,6 +122,7 @@ namespace configuration {
          * values.
          */
         Configuration();
+
         /*! Destructor. */
         ~Configuration();
         /*!
