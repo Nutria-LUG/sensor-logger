@@ -1,0 +1,64 @@
+sensor-logger
+=============
+
+NOME
+    sensor-logger - Scrive sul log (data base sqlite) una rilevazione
+                    effettuata dai sensori
+  
+SINOSSI
+    sensor-logger
+    sensor-logger -?
+    sensor-logger --help
+    sensor-logger --version
+    sensor-logger --list
+    sensor-logger --log [SENSOR] <value>
+
+DESCRIZIONE
+    *sensor-logger* è un programma da interfaccia di comando che
+    scrive su un data base sqlite la rilevazione passata come
+    parametro.
+    La rilevazione va passata nel modo seguente:
+      [SENSOR] [VALUE]
+    Dove SENSOR è il codice di un sensore disponibile e [VALUE] è il
+    relativo valore. Vedere avanti la descrizione dei sensori
+    disponibili
+    
+COMANDI
+  -?|--help Mostra un messaggio riguardante la modalità d'uso del
+            programma.
+  
+  --version Mostra un messaggio che contiene la versione del
+            programma.
+  
+  --list    Mostra l'elenco dei sensori disponibili separati da un
+            "a capo".
+  
+  --log     Scrive la rilevazione passata sul data base di log. La
+            rilevazione va' passata nel seguente formato:
+              [SENSOR] [VALUE]
+            Per esempio:
+              > sensor-logger --log pm10 0.1
+
+SENSORI
+  pm10        Rileva la quantità di PM10
+  
+  temperature Rileva la temperatura corrente espressa in gradi
+              Celsius.
+  
+  humidity    Rileva la percentuale di umidità in formato tra 0 e 1.
+              Ad esempio: 0.2 rappresenta il 20%.
+
+ESEMPI
+  sensor-logger --list
+    Mostra il seguente output:
+      pm10
+      temperature
+      humidity
+      
+  sensor-logger --log pm10 0.3
+    Salva sul data base la rilevazione di pm10 passata come parametro
+  sensor-reader pm10 0.3 temperature 20
+    Salva sul database le dure rilevazioni di pm10 e temperatura.
+
+LICENZA
+    Da stabilire.
