@@ -4,4 +4,5 @@ sensor_logger_SOURCES = \
 	main.cc\
 	sensor_reader_info.cc\
 	filesystem.cc\
-	configuration.cc
+	configuration.cc \
+	sensor.cc

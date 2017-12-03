@@ -29,11 +29,13 @@ namespace configuration {
      */
     class ConfigFile {
     public:
-        /*\
+        
+        /*!
          * \brief Default constructor.
          * Initialize an empty file with no entries.
          */
         ConfigFile();
+
         /*!
          * \brief Constructor with one parameter.
          * Initialize the object parsing the file specified as
@@ -43,6 +45,7 @@ namespace configuration {
          * \param file - Configuration file to parse.
          */
         ConfigFile(const std::string& file);
+
         /*! Destructor. */
         ~ConfigFile();
         /*!
@@ -125,6 +128,7 @@ namespace configuration {
 
         /*! Destructor. */
         ~Configuration();
+
         /*!
          * \brief Gets the configuration data.
          * This method return the data parsed from the configuration
@@ -136,12 +140,14 @@ namespace configuration {
         const ConfigurationData& get_data() const;
 
     private:
+
         /*!
          * \brief Constructor with one parameter.
          * Initialize the configuration from the file passed. It is
          * used by the default constructor.
          */
         Configuration(const std::string& config_file);
+
         /*! Configuration data retrieved by the configuration file. */
         ConfigurationData _configuration_data;
     };    
