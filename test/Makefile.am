@@ -1,0 +1,6 @@
+# AM_CXXFLGAS = -W -Wall
+# LDADD = -lcppunit
+
+# TESTS = test1 test2 ... testN
+# test1_SOURCES = test1.cc ../src/dep1.cc ....
+# testN_SOURCES = test1.cc ../src/dep1.cc ....
