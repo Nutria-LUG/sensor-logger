@@ -5,4 +5,5 @@ sensor_logger_SOURCES = \
 	sensor_reader_info.cc\
 	filesystem.cc\
 	configuration.cc \
-	sensor.cc
+	sensor.cc \
+	sourvay.cc

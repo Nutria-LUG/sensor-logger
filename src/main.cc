@@ -11,10 +11,10 @@ void initialize_sensors(BackInserterIterator itr) {
 }
 
 int main(int argc, char** argv) {
+
     std::list<Sensor> available_sensors;
     initialize_sensors(std::back_inserter(available_sensors));
-    
-    
+
     if(argc == 2 && strcmp(argv[1], "--version") == 0) {
         std::cout << SensorReaderInfo::NAME << " "
                   << SensorReaderInfo::VERSION_NUMBER << "\n"
