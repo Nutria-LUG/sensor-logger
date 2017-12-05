@@ -7,6 +7,7 @@
  */
 
 #include <string>
+#include <ostream>
 
 #ifndef SENSOR_INCLUDE_GUARD_HH
 #define SENSOR_INCLUDE_GUARD_HH 1
@@ -60,5 +61,16 @@ struct Sensor {
     /*! Destructor. */
     ~Sensor();
 };
+
+/*!
+ * Overloading of the operator<<, it put in the stream passed the name
+ * of the sensor with a \n at the end.
+ * \param os     - Output stream where ouput the sensor passed as
+ *                 parameter.
+ * \param sensor - Sensor to output.
+ * \return A ostream reference to give the possibility to chain the
+ *         output.
+ */
+std::ostream& operator<<(std::ostream& os, const Sensor& sensor);
 
 #endif

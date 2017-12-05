@@ -14,3 +14,8 @@ Sensor::Sensor(const Sensor&& sensor)
     : id(std::move(sensor.id)), name(std::move(sensor.name)) { }
 
 Sensor::~Sensor() {}
+
+std::ostream& operator<<(std::ostream& os, const Sensor& sensor) {
+    os << sensor.name << "\n";
+    return os;
+}
