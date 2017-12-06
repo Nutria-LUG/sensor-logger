@@ -1,3 +1,11 @@
+/*!
+ * \brief     This file contains the definition of the main program
+ *            used to perform the sourvays log.
+ * \file      main.cc
+ * \author    NutriaLUG
+ * \copyright GNU Public License
+ */
+
 #include <iostream>
 #include <cstring>
 #include <list>
@@ -33,14 +41,6 @@ int main(int argc, char** argv) {
                       available_sensors.end(),
                       os_itr);
         }
-    } else {
-        for(auto itr = available_sensors.begin();
-            itr != available_sensors.end();
-            ++itr) {
-            std::cout << itr -> id << " - " << itr -> name << "\n";
-        }
-        std::cout << std::endl;
-        
     }
     return 0;
 }

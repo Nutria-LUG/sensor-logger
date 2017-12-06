@@ -8,6 +8,7 @@
 
 #include <string>
 #include "sensor.hh"
+#include <ctime>
 
 #ifndef SOURVAY_INCLUDE_GUARD_HH
 #define SOURVAY_INCLUDE_GUARD_HH 1
@@ -23,6 +24,8 @@ struct Sourvay {
 
     /*! Value of the sourvay to save on the data base. */
     float value;
+    
+    std::time_t timestamp;
 
     /*!
      * \brief Default constructor.

@@ -13,7 +13,6 @@
 struct SensorReaderInfo {
     static const char* NAME;
     static const char* VERSION_NUMBER;
-    static const char* HOME_ENV;
     static const char* CONFIG_FILE_NAME;
 };
 
