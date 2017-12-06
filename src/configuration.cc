@@ -54,15 +54,15 @@ std::istream& operator>>(std::istream& is,
     return is;
 }
 
-std::string get_config_folder_path(Filesystem& filesystem) {
 
+std::string get_config_folder_path(Filesystem& filesystem) {
     std::string path(filesystem.get_home_path());
     path += "/.config";
     if(!filesystem.exists(path)) {
         filesystem.create_directories(path);
     }
     path += "/";
-    path += SensorReaderInfo::NAME;;
+    path += SensorReaderInfo::NAME;
     if(!filesystem.exists(path)) {
         filesystem.create_directories(path);
     }

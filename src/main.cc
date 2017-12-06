@@ -11,6 +11,10 @@
 #include <list>
 #include <iterator>
 #include <algorithm>
+#include <fstream>
+
+#include "filesystem.hh"
+#include "configuration.hh"
 #include "sensor_reader_info.hh"
 #include "sensor.hh"
 
@@ -23,6 +27,15 @@ int main(int argc, char** argv) {
 
     std::list<Sensor> available_sensors;
     initialize_sensors(std::back_inserter(available_sensors));
+
+    LinuxFilesystem fs;
+    auto config_file = get_config_file_path(fs);
+    std::cout << config_file << std::endl;
+    std::ifstream is(config_file);
+    ConfigurationData config;
+    is >> config;
+
+    std::cout << config.database_path << std::endl;
 
     if(argc == 2) {
         if(strcmp(argv[1], "--version") == 0) {

@@ -21,6 +21,6 @@ public:
     
     std::string get_home_path() const;
     bool exists(const std::string& path) const;
-    void create_directories(const std::string& path);     
+    void create_directories(const std::string& path);
 };
 #endif
