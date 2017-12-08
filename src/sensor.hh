@@ -64,6 +64,16 @@ struct Sensor {
 };
 
 /*!
+ * Oveloading of the == operator. Check if the sensor id is the same
+ * passed as second parameter.
+ * \param sensor    - Sensor to check.
+ * \param sensor_id - Id to check,
+ * \return True if the sensor has the same id passed as second
+ *         parameter, false otherwise.
+ */
+bool operator==(const Sensor& sensor, const char* sensor_id);
+
+/*!
  * Overloading of the operator<<, it put in the stream passed the name
  * of the sensor with a \n at the end.
  * \param os     - Output stream where ouput the sensor passed as
@@ -74,4 +84,21 @@ struct Sensor {
  */
 std::ostream& operator<<(std::ostream& os, const Sensor& sensor);
 
+/*!
+ * \brief Builder function for the sensors.
+ *
+ * This function fill the list of availble sensors in the program. The
+ * available collection of sensors is created in the code (not by
+ * configuration)
+ *
+ * \tparam InserterIterator - Inserter iterator.
+ * \param inserter_iterator - Inserter iterator used to put the sensors
+ *                            in.
+ */
+template<class InserterIterator>
+inline void create_sensors(InserterIterator inserter_iterator) {
+    *inserter_iterator = Sensor("pm10", "pm10");
+    *inserter_iterator = Sensor("temperature", "temperature");
+    *inserter_iterator = Sensor("humidity", "humidity");
+}
 #endif

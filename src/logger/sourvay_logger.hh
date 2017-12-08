@@ -6,7 +6,7 @@
  * \copyright GNU Public License
  */
 
-#include "sourvay.hh"
+#include "../sourvay.hh"
 
 #ifndef SOURVAY_LOGGER_INCLUDE_GAURD_HH
 #define SOURVAY_LOGGER_INCLUDE_GAURD_HH 1

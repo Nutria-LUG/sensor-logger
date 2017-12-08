@@ -15,8 +15,7 @@
 #include <string>
 #include <sqlite3.h>
 #include "sourvay_logger.hh"
-#include "sourvay.hh"
-
+#include "../sourvay.hh"
 
 /*!
  * This represent an exception thrown when an error occours during

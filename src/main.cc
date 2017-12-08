@@ -17,20 +17,15 @@
 #include "configuration.hh"
 #include "sensor_logger_info.hh"
 #include "sensor.hh"
-
-template<class BackInserterIterator>
-void initialize_sensors(BackInserterIterator itr) {
-    *itr = Sensor("01", "pm10");
-}
+#include "sourvay.hh"
 
 int main(int argc, char** argv) {
-
     std::list<Sensor> available_sensors;
-    initialize_sensors(std::back_inserter(available_sensors));
+    std::list<Sourvay> sourvays;
+    create_sensors(std::back_inserter(available_sensors));
 
     CppStdFilesystem fs;
     auto config_file = get_config_file_path(fs);
-    std::cout << config_file << std::endl;
     std::ifstream is(config_file);
     ConfigurationData config;
     is >> config;
@@ -43,6 +38,24 @@ int main(int argc, char** argv) {
             std::copy(available_sensors.begin(),
                       available_sensors.end(),
                       os_itr);
+        }
+    } else if(argc > 2 && strcmp(argv[1], "--log") == 0) {
+        bool res = create_sourvays(argv + 2,
+                                   argv + argc,
+                                   available_sensors.begin(),
+                                   available_sensors.end(),
+                                   std::back_inserter(sourvays));
+        if(!res) {
+            std::cerr << "Invalid arguments" << std::endl;
+        } else {
+            for(auto itr = sourvays.begin();
+                itr != sourvays.end();
+                ++itr) {
+                std::cout << itr -> sensor -> name << " "
+                          << itr -> value << " "
+                          << "(" << (itr -> timestamp) << ")\n";
+            }
+            std::cout << std::endl;
         }
     }
     return 0;
