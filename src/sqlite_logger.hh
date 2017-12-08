@@ -1,7 +1,7 @@
 /*!
- * \brief     This file contains the sourvay logger implementaion based
- *            based on sqlite engine. It log sourvays through a sqlite
- *            database.
+ * \brief     This file contains the sourvay logger (a logger
+ *            implementaion based on sqlite engine) and each component
+ *            component used to realize it.
  * \file      sqlite_logger.hh
  * \author    NutriaLUG
  * \copyright GNU Public License
@@ -26,10 +26,13 @@
 struct DataBaseException {
     /*! Code of the exception. */
     int         code;
+
     /*! Readable message error */
     std::string message;
+
     /*! Default constructor. */
     DataBaseException();
+
     /*! 
      * \brief Constructor with two parameters.
      * \param exception_code    - Code of the exception.
@@ -37,11 +40,13 @@ struct DataBaseException {
      */
     DataBaseException(const int          exception_code,
                       const std::string& exception_message);
+
     /*! 
      * Copy constructor.
      * \param db_exception - Exception object to copy.
      */
     DataBaseException(const DataBaseException& db_exception);
+
     /*! Default destructor. */
     ~DataBaseException();
 };
@@ -74,14 +79,14 @@ struct QueryResult {
     
 /*!
  * Convert the query result to a list of elements.
- * @tpar MapFunc - Map function map. It is used to assign a cell
+ * \tpar MapFunc - Map function map. It is used to assign a cell
  *                 value to a field of the result type element. It
  *                 must take:
  *                  - string: that represent the column name.
  *                  - string: that represent the value
  *                  - Result: Object to assign the value.
- * @tpar Result  - Result type object.
- * @return A list of Result elements.
+ * \tpar Result  - Result type object.
+ * \return A list of Result elements.
  *         NOTE: The list is returned as move copy.
  */
 template<typename MapFunc, typename Result> 
@@ -111,13 +116,22 @@ public:
 
     /*! Name of the column used as id in each table. */
     const std::string ID_COLUMN_NAME = "id";
+
     /*! Name of the sourvays table. */
     const std::string SOURVAYS_TABLE_NAME = "sourvays";
+
     /*! Name of the timestamp sourvay's column. */
     const std::string SOURVAYS_TABLE_TIMESTAMP_COLUMN = "timestamp";
+
+    /*!
+     * This is the flag used to know if the sourvay to have been send
+     * to the server or not.
+     */
     const std::string SOURVAYS_TABLE_SEND_FLAG_COLUMN = "send_flag";
+
     /*! Name of the column used to store the value in sensor table. */
     const std::string SENSOR_TABLE_VALUE_COLUMN = "value";
+
     /*!
      * Name of the foreign key of the sensor table to have the sourvay
      * reference.
@@ -144,34 +158,21 @@ public:
     ~SqliteLogger();
 
     /*!
-     * \brief Insert the sourvay passed as parameter in the
-     *        database.
-     * Insert the sourvay passed as parameter in the data base
-     * as entry in the Souvays table.
-     * \param sourvay - Sourvay to insert in the data base. It must
-     *                  conains a pointer to informations not null
-     *                  with an id specified (not empty string).
-     *
+     * \inheritdoc
      * <h3> CONTRACT </h3>
-     * \pre  This data base must be valid and sourvay must
-     *       contains a not null pointer to sensor with a not empty
-     *       id.
-     * \post This data base is valid and count method return a
-     *       number equals to previous count result + 1.
+     * \pre  As parent class and this data base must be valid.
+     * \post As parent class and this data base is still valid.
      */
-    void log(const Sourvay& sourvay);
+    void log(const Sourvay& sourvay) noexcept;
 
     /*!
-     * \brief Return the number of sourvays inside the data base
-     *        in the Sourvays table.
-     * \return An unsigned int that rapresent the number of rows
-     *         of the sourvays table.
+     * \inheritdoc
      *
      * <h3>CONTRACT</h3>
-     * \pre  This data base must be valid.
-     * \post This data base is still valid.
+     * \pre  As parent class and this data base must be valid.
+     * \post As parent class and this data base still is valid.
      */
-    unsigned int count();
+    unsigned int count() const noexcept;
 
 private:
     /*!
@@ -185,10 +186,13 @@ private:
         
     /*! Not implemented. */
     SqliteLogger();
+
     /*! Not implemented. */
     SqliteLogger(const SqliteLogger&);
+
     /*! Not implemented. */
     SqliteLogger(const SqliteLogger&&);
+
     /*! Pointer to the sqlite3 data base connector. */
     sqlite3 *_db;
 };

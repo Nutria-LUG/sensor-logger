@@ -98,7 +98,7 @@ SqliteLogger::~SqliteLogger() {
     sqlite3_close(_db);
 }
 
-void SqliteLogger::log(const Sourvay& sourvay) {
+void SqliteLogger::log(const Sourvay& sourvay) noexcept {
     assert(OK() &&
            sourvay.sensor != NULL &&
            sourvay.sensor -> id != "" &&
@@ -147,7 +147,7 @@ void SqliteLogger::log(const Sourvay& sourvay) {
     assert(OK());
 }
 
-unsigned int SqliteLogger::count() {
+unsigned int SqliteLogger::count() const noexcept {
     assert(OK());
     
     std::stringstream stmt;  

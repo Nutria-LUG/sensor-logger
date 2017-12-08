@@ -21,7 +21,8 @@
  * database: name passed is searched from the collection of available
  * sensors and the id used to perform entry in the data base.
  * 
- * The list of available sensor is read from the data base.
+ * \def   A sensor is a VALID SENSOR  if its id and name are not empty
+ *        string.
  */
 struct Sensor {
 
