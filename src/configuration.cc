@@ -1,5 +1,5 @@
 #include "sensor_reader_info.hh"
-#include "filesystem.hh"
+#include "filesystem/filesystem.hh"
 #include "configuration.hh"
 #include <fstream>
 #include <sstream>

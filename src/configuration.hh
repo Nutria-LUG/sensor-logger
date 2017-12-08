@@ -9,7 +9,7 @@
 
 #include <string>
 #include <istream>
-#include "filesystem.hh"
+#include "filesystem/filesystem.hh"
 
 #ifndef CONFIGURATION_INCLUDE_GUARD_HH
 #define CONFIGURATION_INCLUDE_GUARD_HH 1
