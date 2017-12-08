@@ -15,7 +15,7 @@
 
 #include "filesystem/cpp_std_filesystem.hh"
 #include "configuration.hh"
-#include "sensor_reader_info.hh"
+#include "sensor_logger_info.hh"
 #include "sensor.hh"
 
 template<class BackInserterIterator>
@@ -35,19 +35,9 @@ int main(int argc, char** argv) {
     ConfigurationData config;
     is >> config;
 
-    std::cout << config.database_path << std::endl;
-
     if(argc == 2) {
         if(strcmp(argv[1], "--version") == 0) {
-            std::cout << SensorReaderInfo::NAME << " "
-                      << SensorReaderInfo::VERSION_NUMBER << "\n"
-                      << "License GPLv3+: GNU GPL version 3 or later "
-                      << "<http://gnu.org/licenses/gpl.html>.\n"
-                      << "This is free software: you are free to "
-                      << "change and redistribute it.\n"
-                      << "There is NO WARRANTY, to the extent "
-                      << "permitted by law.\n"
-                      << std::endl;
+            out_informations(std::cout);
         } else if(strcmp(argv[1], "--list") == 0) {
             std::ostream_iterator<Sensor> os_itr(std::cout);
             std::copy(available_sensors.begin(),

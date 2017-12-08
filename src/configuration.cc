@@ -1,4 +1,4 @@
-#include "sensor_reader_info.hh"
+#include "sensor_logger_info.hh"
 #include "filesystem/filesystem.hh"
 #include "configuration.hh"
 #include <fstream>
@@ -62,7 +62,7 @@ std::string get_config_folder_path(Filesystem& filesystem) {
         filesystem.create_directories(path);
     }
     path += "/";
-    path += SensorReaderInfo::NAME;
+    path += SensorLoggerInfo::NAME;
     if(!filesystem.exists(path)) {
         filesystem.create_directories(path);
     }
@@ -72,6 +72,6 @@ std::string get_config_folder_path(Filesystem& filesystem) {
 std::string get_config_file_path(Filesystem& filesystem) {
     std::stringstream ss;
     ss << get_config_folder_path(filesystem)
-       << "/" << SensorReaderInfo::CONFIG_FILE_NAME;
+       << "/" << SensorLoggerInfo::CONFIG_FILE_NAME;
     return ss.str();
 }

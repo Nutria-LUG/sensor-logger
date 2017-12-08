@@ -4,7 +4,7 @@ sensor_logger_SOURCES = \
 	main.cc\
 	filesystem/filesystem.cc\
 	filesystem/cpp_std_filesystem.cc\
-	sensor_reader_info.cc\
+	sensor_logger_info.cc\
 	configuration.cc \
 	sensor.cc \
 	sourvay.cc \
