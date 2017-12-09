@@ -59,4 +59,25 @@ private:
 
 };
 
+/*!
+ * Log sourvays passed as range parameter through the logger spcified.
+ * \tpar ForwardIteartor - Forward iterator used to specify the range
+ *                         of the collection to log.
+ * \param begin  - Iterator to the begin of the collection of the
+ *                 sourvays to log.
+ * \param end    - Iterator to the end of the collection of the
+ *                 sourvays to log.
+ * \param logger - Logger to use to log the sourvays specified by
+ *                 iterator range.
+ */
+template<class ForwardIterator>
+inline void log_sourvays(ForwardIterator begin,
+                         ForwardIterator end,
+                         SourvayLogger& logger) {
+    while(begin != end) {
+        logger.log(*begin);
+        ++begin;
+    }
+}
+
 #endif

@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <fstream>
 
+#include "logger/sourvay_logger.hh"
+#include "logger/sqlite_logger.hh"
 #include "filesystem/cpp_std_filesystem.hh"
 #include "configuration.hh"
 #include "sensor_logger_info.hh"
@@ -48,14 +50,8 @@ int main(int argc, char** argv) {
         if(!res) {
             std::cerr << "Invalid arguments" << std::endl;
         } else {
-            for(auto itr = sourvays.begin();
-                itr != sourvays.end();
-                ++itr) {
-                std::cout << itr -> sensor -> name << " "
-                          << itr -> value << " "
-                          << "(" << (itr -> timestamp) << ")\n";
-            }
-            std::cout << std::endl;
+            SqliteLogger logger(config.database_path);
+            log_sourvays(sourvays.begin(), sourvays.end(), logger);
         }
     }
     return 0;

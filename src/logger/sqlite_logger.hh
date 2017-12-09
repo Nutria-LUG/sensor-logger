@@ -74,7 +74,6 @@ struct QueryResult {
     /*! Destructor. */
     ~QueryResult();
 };
-
     
 /*!
  * Convert the query result to a list of elements.

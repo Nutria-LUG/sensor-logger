@@ -6,7 +6,7 @@
 #include <istream>
 
 namespace __CONFIGURATION__INTERNAL__NS__ {
-    
+
     std::string trim(std::string const& source,
                      char const* delims = " \t\r\n") {
         std::string result(source);
@@ -22,30 +22,30 @@ namespace __CONFIGURATION__INTERNAL__NS__ {
         }
         return result;
     }
+
 }
 
 
 ConfigurationData::ConfigurationData()
     : database_path() { }
 
-ConfigurationData::~ConfigurationData() {
-}
+ConfigurationData::~ConfigurationData() { }
 
-
+#include<iostream>
 std::istream& operator>>(std::istream& is,
                          ConfigurationData& config) {
     std::string line;
     int posEqual;
-    while (std::getline(is,line)) {
+    while (std::getline(is, line)) {
         if (!line.length() ||
             line[0] == '#' ||
             line[0] == ';') {
             continue;
-        }        
+        }
         posEqual = line.find('=');
         std::string key = __CONFIGURATION__INTERNAL__NS__::trim(
             line.substr(0, posEqual));
-        if(key == DATABASE_PATH_KEY) {
+        if (key == DATABASE_PATH_KEY) {
             std::string value = line.substr(posEqual + 1);
             config.database_path =
                 __CONFIGURATION__INTERNAL__NS__::trim(value);

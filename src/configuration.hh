@@ -14,7 +14,6 @@
 #ifndef CONFIGURATION_INCLUDE_GUARD_HH
 #define CONFIGURATION_INCLUDE_GUARD_HH 1
 
-
 /*!
  * \brief Get the configuraiton folder
  * Gets the configuration folder of the system. It is located in
@@ -57,6 +56,7 @@ struct ConfigurationData {
     
     /*! Default constructor. */
     ConfigurationData();
+
     /*! Default destructor. */
     ~ConfigurationData();
 };

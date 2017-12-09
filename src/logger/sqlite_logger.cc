@@ -57,11 +57,8 @@ namespace __SQLITE__INTERNAL__ {
     }    
 }
 
-
-
 QueryResult::QueryResult() {}
 QueryResult::~QueryResult(){}
-
 
 DataBaseException::DataBaseException()
   : code(), message() { }
@@ -141,9 +138,7 @@ void SqliteLogger::log(const Sourvay& sourvay) noexcept {
                              << sourvay.value << ","
                              << last_id << ");";
     __SQLITE__INTERNAL__::sqlite_execute_stmt(
-        _db, insert_sensor_value_stmt.str());
-    
-    
+        _db, insert_sensor_value_stmt.str());    
     assert(OK());
 }
 
