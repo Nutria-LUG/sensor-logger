@@ -60,74 +60,50 @@ struct Sourvay {
 
 
 
-#include <ctime>
-#include <algorithm>
 #include <sstream>
+#include <map>
 
 /*!
- * Create the sourvays adding it in the inserter iterator passed as
- * parameter.
- * Parse the arguments passed as range parameters and use the sensor
- * range to take the right sensor to put inside each sourvays.
- * Timestamp of each sourvay is set to current time.
+ * This function perform the read of sourvays through the input stream
+ * specified by parameter.
+ * It put the result sourvays in the collection passed as inserter
+ * iterator.
+ * NOTE: Sourvays are read in the following format: id of the sensor,
+ *       value of the sourvay seprated by a ' ' or '\n' character.
+ *       Different sourvays must be seperated by ' ' or '\n' character.
  *
- * \tpar SourvayIterator  - Forward iterator of the sourvays to parse.
- * \tpar SensorIterator   - Forward iterator of the sensors.
- * \tpar InserterIterator - Inserter iterator to assign the sourvays.
- *
- * \param sourvay_begin  - Iterator to the begin of the sourvays
- *                         collection in the format:
- *                           name_of_sensor valu_of_sensor
- *                         In pratice name and value separated by a
- *                         space.
- * \param sourvay_end    - Iterator to the end of the sourvays
- *                         collection in the format:
- *                           name_of_sensor valu_of_sensor
- *                         In pratice name and value separated by a
- *                         space
- * \param s_begin        - Iterator to the begin of the sensors
- *                         collection.
- * \param s_end          - Iteartor to the end of the sensors
- *                         collection.
- * \param inserter       - Inserter iterator used to put the sourvays
- *                         inside a collection.
+ * \tpar InserterIterator - Iterator to use to put the sourvays inside
+ *                          the collection.
+ * \param sensors  - Map of sensors used to get the sensors by id
+ *                   without perform any search.
+ * \param inserter - Inserter iterator used to put sourvays inside the
+ *                   collection.
+ * \param is       - Input stream used to get the sourvays.
+ * \return A boolean value used to know if the sourvays passed are in
+ *         the right format. Return true if sourvays are ok, false
+ *         otherwise.
  */
-template<class SourvayIterator,
-         class SensorIterator,
-         class InserterIterator>
-bool create_sourvays(SourvayIterator sourvay_begin,
-                     SourvayIterator sourvay_end,
-                     SensorIterator s_begin,
-                     SensorIterator s_end,
-                     InserterIterator inserter) {
+template<class InserterIterator>
+inline bool read_sourvays(const std::map<std::string, Sensor*>& sensors,
+                          InserterIterator inserter,
+                          std::istream& is) {
     std::time_t t;
     std::time(&t);
 
-    while(sourvay_begin != sourvay_end) {
-        std::string sensor_id;
-        std::string value;
-        std::istringstream ss(*sourvay_begin);
-
-        std::getline(ss, sensor_id, ' ');
-        std::getline(ss, value, ' ');
-        
-        auto s_itr = std::find(s_begin, s_end, sensor_id);
-        if(s_itr == s_end) {
-            return false;
-        }
+    std::string str;
+    while(is >> str) {
         Sourvay sourvay;
         sourvay.timestamp = t;
-        sourvay.sensor = &(*s_itr);
-        
+        sourvay.sensor = sensors.at(str);
+        if(sourvay.sensor == NULL) { return false; }
+        is >> str;
         try {
-            sourvay.value = std::stof(value);
+            sourvay.value = std::stof(str);
         } catch(...) {
             return false;
         }
         *inserter = sourvay;
-        ++sourvay_begin;
     }
     return true;
 }
-
 #endif

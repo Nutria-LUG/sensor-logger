@@ -8,12 +8,12 @@
 
 #include <iostream>
 #include <string>
-#include <sstream>
 #include <list>
 #include <iterator>
 #include <algorithm>
 #include <fstream>
 #include <cstring>
+#include <map>
 
 #include "logger/sourvay_logger.hh"
 #include "logger/sqlite_logger.hh"
@@ -47,16 +47,15 @@ int main(int argc, char** argv) {
                       available_sensors.end(),
                       os_itr);
         } else if(strcmp(argv[1], "--log") == 0) {
-            std::list<std::string> sensor_sourvays;
-            std::string str;
-            while(std::getline(std::cin, str)) {
-                sensor_sourvays.push_back(str);
-            };
-            bool res = create_sourvays(sensor_sourvays.begin(),
-                                       sensor_sourvays.end(),
-                                       available_sensors.begin(),
-                                       available_sensors.end(),
-                                       std::back_inserter(sourvays));
+            std::map<std::string, Sensor*> map;
+            for(auto itr = available_sensors.begin();
+                itr != available_sensors.end();
+                ++itr) {
+                map[itr -> id] = &(*itr);
+            }
+            bool res = read_sourvays(map,
+                                     std::back_inserter(sourvays),
+                                     std::cin);
             if(!res) {
                 std::cerr << "Invalid arguments" << std::endl;
             } else {
