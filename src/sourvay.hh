@@ -62,6 +62,7 @@ struct Sourvay {
 
 #include <ctime>
 #include <algorithm>
+#include <sstream>
 
 /*!
  * Create the sourvays adding it in the inserter iterator passed as
@@ -70,44 +71,61 @@ struct Sourvay {
  * range to take the right sensor to put inside each sourvays.
  * Timestamp of each sourvay is set to current time.
  *
- * \tpar ArgumentsIterator - Forward iterator of the arguments.
- * \tpar SensorIterator    - Forward iterator of the sensors.
- * \tpar InserterIterator  - Inserter iterator to assign the sourvays.
+ * \tpar SourvayIterator  - Forward iterator of the sourvays to parse.
+ * \tpar SensorIterator   - Forward iterator of the sensors.
+ * \tpar InserterIterator - Inserter iterator to assign the sourvays.
  *
- * \param a_begin  - Iterator to the begin of the arguments collection.
- * \param a_end    - Iterator to the end of the arguments collection.
- * \param s_begin  - Iterator to the begin of the sensors collection.
- * \param s_end    - Iteartor to the end of the sensors collection.
- * \param inserter - Inserter iterator used to put the sourvays inside
- *                   a collection.
+ * \param sourvay_begin  - Iterator to the begin of the sourvays
+ *                         collection in the format:
+ *                           name_of_sensor valu_of_sensor
+ *                         In pratice name and value separated by a
+ *                         space.
+ * \param sourvay_end    - Iterator to the end of the sourvays
+ *                         collection in the format:
+ *                           name_of_sensor valu_of_sensor
+ *                         In pratice name and value separated by a
+ *                         space
+ * \param s_begin        - Iterator to the begin of the sensors
+ *                         collection.
+ * \param s_end          - Iteartor to the end of the sensors
+ *                         collection.
+ * \param inserter       - Inserter iterator used to put the sourvays
+ *                         inside a collection.
  */
-template<class ArgumentsIterator,
+template<class SourvayIterator,
          class SensorIterator,
          class InserterIterator>
-bool create_sourvays(ArgumentsIterator a_begin,
-                     ArgumentsIterator a_end,
+bool create_sourvays(SourvayIterator sourvay_begin,
+                     SourvayIterator sourvay_end,
                      SensorIterator s_begin,
                      SensorIterator s_end,
                      InserterIterator inserter) {
     std::time_t t;
     std::time(&t);
 
-    while(a_begin != a_end) {
-        auto s_itr = std::find(s_begin, s_end, *a_begin);
+    while(sourvay_begin != sourvay_end) {
+        std::string sensor_id;
+        std::string value;
+        std::istringstream ss(*sourvay_begin);
+
+        std::getline(ss, sensor_id, ' ');
+        std::getline(ss, value, ' ');
+        
+        auto s_itr = std::find(s_begin, s_end, sensor_id);
         if(s_itr == s_end) {
             return false;
         }
         Sourvay sourvay;
         sourvay.timestamp = t;
         sourvay.sensor = &(*s_itr);
-        ++a_begin;
+        
         try {
-            sourvay.value = std::stof(*a_begin);
+            sourvay.value = std::stof(value);
         } catch(...) {
             return false;
         }
         *inserter = sourvay;
-        ++a_begin;
+        ++sourvay_begin;
     }
     return true;
 }

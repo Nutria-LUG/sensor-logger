@@ -63,9 +63,21 @@ struct Sensor {
     ~Sensor();
 };
 
+
 /*!
  * Oveloading of the == operator. Check if the sensor id is the same
  * passed as second parameter.
+ * \param sensor    - Sensor to check.
+ * \param sensor_id - Id to check,
+ * \return True if the sensor has the same id passed as second
+ *         parameter, false otherwise.
+ */
+bool operator==(const Sensor& sensor, const std::string& sensor_id);
+
+/*!
+ * Oveloading of the == operator. Check if the sensor id is the same
+ * passed as second parameter.
+ * This use the std::srtring overload function.
  * \param sensor    - Sensor to check.
  * \param sensor_id - Id to check,
  * \return True if the sensor has the same id passed as second

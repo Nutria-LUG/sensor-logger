@@ -1,5 +1,5 @@
 #include "sensor.hh"
-#include <cstring>
+#include <string>
 #include <algorithm>
 
 Sensor::Sensor() {}
@@ -16,8 +16,13 @@ Sensor::Sensor(const Sensor&& sensor)
 
 Sensor::~Sensor() {}
 
+bool operator==(const Sensor& sensor, const std::string& sensor_id) {
+    return sensor.id == sensor_id;
+}
+
 bool operator==(const Sensor& sensor, const char* sensor_id) {
-    return strcmp(sensor.id.c_str(), sensor_id) == 0;
+    std::string id(sensor_id);
+    return sensor == id;
 }
 
 std::ostream& operator<<(std::ostream& os, const Sensor& sensor) {
