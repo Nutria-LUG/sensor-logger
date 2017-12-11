@@ -3106,8 +3106,7 @@ fi
 ac_config_headers="$ac_config_headers config.h"
 
 
-# Add test/Makefile to the list to enable test
-ac_config_files="$ac_config_files Makefile src/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile test/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -3839,6 +3838,7 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
+    "test/Makefile") CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
