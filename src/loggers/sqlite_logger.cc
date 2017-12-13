@@ -77,9 +77,11 @@ DataBaseException::~DataBaseException() { }
 
 #include <iostream>
 SqliteLogger::SqliteLogger(const std::string& db_file)
-    : _db(__SQLITE__INTERNAL__::sqlite_create_connection(db_file)) {
+    : SourvayLogger(),
+      _db(__SQLITE__INTERNAL__::sqlite_create_connection(db_file)),
+      _sourvay_id(0),
+      _has_add_sourvay(false) {
     assert(OK());
-    
     std::stringstream stmt;
     stmt <<  "CREATE TABLE IF NOT EXISTS "
          << SOURVAYS_TABLE_NAME << "("
@@ -100,34 +102,36 @@ void SqliteLogger::log(const Sourvay& sourvay) noexcept {
            sourvay.sensor != NULL &&
            sourvay.sensor -> id != "" &&
            sourvay.sensor -> name != "");
-    
     std::stringstream add_table_stmt;
     
-    add_table_stmt << "CREATE TABLE IF NOT EXISTS "
-                   << sourvay.sensor -> name << "("
-                   << ID_COLUMN_NAME << " INTEGER PRIMARY KEY,"
-                   << SENSOR_TABLE_VALUE_COLUMN << " REAL NOT NULL,"
-                   << SENSOR_TABLE_SOURVAY_COLUMN
-                   << " INTEGER NOT NULL,"
-                   << "FOREIGN KEY("
-                   << SENSOR_TABLE_SOURVAY_COLUMN << ") "
-                   << "REFERENCES " <<  SOURVAYS_TABLE_NAME
-                   << "(" << ID_COLUMN_NAME << "))";
-    __SQLITE__INTERNAL__::sqlite_execute_stmt(_db,
-                                              add_table_stmt.str());
-
-    std::stringstream insert_sourvay_stmt;
-    insert_sourvay_stmt << "INSERT INTO " << SOURVAYS_TABLE_NAME
-                        << "(" << ID_COLUMN_NAME << ","
-                        << SOURVAYS_TABLE_TIMESTAMP_COLUMN << ","
-                        << SOURVAYS_TABLE_SEND_FLAG_COLUMN << ") "
-                        << "VALUES(NULL,"
-                        << sourvay.timestamp << ","
-                        << "0" << ");";
-    __SQLITE__INTERNAL__::sqlite_execute_stmt(
-        _db, insert_sourvay_stmt.str());
-
-    int last_id = sqlite3_last_insert_rowid(_db);
+    if(!_has_add_sourvay) {
+        _has_add_sourvay = true;
+        add_table_stmt << "CREATE TABLE IF NOT EXISTS "
+                       << sourvay.sensor -> name << "("
+                       << ID_COLUMN_NAME << " INTEGER PRIMARY KEY,"
+                       << SENSOR_TABLE_VALUE_COLUMN
+                       << " REAL NOT NULL,"
+                       << SENSOR_TABLE_SOURVAY_COLUMN
+                       << " INTEGER NOT NULL,"
+                       << "FOREIGN KEY("
+                       << SENSOR_TABLE_SOURVAY_COLUMN << ") "
+                       << "REFERENCES " <<  SOURVAYS_TABLE_NAME
+                       << "(" << ID_COLUMN_NAME << "))";
+        __SQLITE__INTERNAL__::sqlite_execute_stmt(
+            _db, add_table_stmt.str());
+        
+        std::stringstream insert_sourvay_stmt;
+        insert_sourvay_stmt << "INSERT INTO " << SOURVAYS_TABLE_NAME
+                            << "(" << ID_COLUMN_NAME << ","
+                            << SOURVAYS_TABLE_TIMESTAMP_COLUMN << ","
+                            << SOURVAYS_TABLE_SEND_FLAG_COLUMN << ") "
+                            << "VALUES(NULL,"
+                            << sourvay.timestamp << ","
+                            << "0" << ");";
+        __SQLITE__INTERNAL__::sqlite_execute_stmt(
+            _db, insert_sourvay_stmt.str());
+        _sourvay_id = sqlite3_last_insert_rowid(_db);
+    }
     std::stringstream insert_sensor_value_stmt;
     insert_sensor_value_stmt << "INSERT INTO "
                              << sourvay.sensor -> name
@@ -136,7 +140,7 @@ void SqliteLogger::log(const Sourvay& sourvay) noexcept {
                              << SENSOR_TABLE_SOURVAY_COLUMN << ") "
                              << "VALUES(NULL, "
                              << sourvay.value << ","
-                             << last_id << ");";
+                             << _sourvay_id << ");";
     __SQLITE__INTERNAL__::sqlite_execute_stmt(
         _db, insert_sensor_value_stmt.str());    
     assert(OK());

@@ -192,7 +192,13 @@ private:
     SqliteLogger(const SqliteLogger&&);
 
     /*! Pointer to the sqlite3 data base connector. */
-    sqlite3 *_db;
+    sqlite3           *_db;
+
+    /*! This is the id of the sourvay to use as foreign key. */
+    unsigned long int _sourvay_id;
+
+    /*! Boolean value used to know if the sourvay have been added. */
+    bool              _has_add_sourvay;
 };
 
 #endif

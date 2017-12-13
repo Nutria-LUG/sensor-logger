@@ -110,6 +110,7 @@ std::ostream& operator<<(std::ostream& os, const Sensor& sensor);
 template<class InserterIterator>
 inline void create_sensors(InserterIterator inserter_iterator) {
     *inserter_iterator = Sensor("pm10", "pm10");
+    *inserter_iterator = Sensor("pm25", "pm25");
     *inserter_iterator = Sensor("temperature", "temperature");
     *inserter_iterator = Sensor("humidity", "humidity");
 }
