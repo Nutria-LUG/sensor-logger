@@ -17,6 +17,7 @@ public:
         _read_permissions(),
         _home_dir(home_dir) {
     }
+    TestFilesystem() : TestFilesystem("/") { }
     ~TestFilesystem() { }
 
     virtual std::string get_home_path() const noexcept {
@@ -86,5 +87,47 @@ private:
     std::string _home_dir;
 };
 
+class MockedFilesystem : public Filesystem  {
+public:
+    MockedFilesystem(Filesystem *fs) : Filesystem { };
+    virtual std::string get_home_path() const noexcept {
+        return _fs -> get_home_path();
+    }
+
+    virtual bool
+    exists(const std::string& path) const noexcept {
+        auto elem = _path_existance.find(path);
+        return elem == _path_existance.cend() || elem -> second;
+    };
+
+    virtual bool
+    is_valid_path(const std::string& path) const noexcept {
+        auto elem = _path_validity.find(path);
+        return elem== _path_validity.cend() || elem -> second;
+    }
+
+    virtual bool
+    has_write_permission(const std::string& path) const noexcept {
+        auto elem = _write_permissions.find(path);
+        return elem == _write_permissions.cend() || elem -> second;
+    }
+
+    virtual bool
+    has_read_permission(const std::string& path) const noexcept {
+        auto elem = _write_permissions.find(path);
+        return elem == _read_permissions.cend() || elem -> second;
+    };
+
+    virtual void
+    create_directories(const std::string& path) {
+        auto elem = _path_existance.find(path);
+        if(elem != _path_existance.cend()) {
+            elem -> second = true;
+        }
+    };
+    
+private:
+    Filesystem *_fs;
+};
 
 #endif

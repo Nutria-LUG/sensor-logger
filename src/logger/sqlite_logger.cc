@@ -75,7 +75,7 @@ DataBaseException::DataBaseException(
 
 DataBaseException::~DataBaseException() { }
 
-
+#include <iostream>
 SqliteLogger::SqliteLogger(const std::string& db_file)
     : _db(__SQLITE__INTERNAL__::sqlite_create_connection(db_file)) {
     assert(OK());

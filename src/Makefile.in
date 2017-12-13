@@ -103,7 +103,7 @@ am__dirstamp = $(am__leading_dot)dirstamp
 am_sensor_logger_OBJECTS = main.$(OBJEXT) sensor_logger_info.$(OBJEXT) \
 	configuration.$(OBJEXT) sensor.$(OBJEXT) sourvay.$(OBJEXT) \
 	filesystem/filesystem.$(OBJEXT) \
-	filesystem/cpp_std_filesystem.$(OBJEXT) \
+	filesystem/boost_filesystem.$(OBJEXT) \
 	logger/sourvay_logger.$(OBJEXT) logger/sqlite_logger.$(OBJEXT)
 sensor_logger_OBJECTS = $(am_sensor_logger_OBJECTS)
 sensor_logger_DEPENDENCIES =
@@ -249,7 +249,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-sensor_logger_LDADD = -lstdc++fs -lsqlite3
+sensor_logger_LDADD = -lsqlite3 -lboost_system -lboost_filesystem #-lstdc++fs
 sensor_logger_SOURCES = \
 	main.cc\
 	sensor_logger_info.cc\
@@ -257,7 +257,7 @@ sensor_logger_SOURCES = \
 	sensor.cc \
 	sourvay.cc \
 	filesystem/filesystem.cc\
-	filesystem/cpp_std_filesystem.cc\
+	filesystem/boost_filesystem.cc\
 	logger/sourvay_logger.cc \
 	logger/sqlite_logger.cc
 
@@ -344,7 +344,7 @@ filesystem/$(DEPDIR)/$(am__dirstamp):
 	@: > filesystem/$(DEPDIR)/$(am__dirstamp)
 filesystem/filesystem.$(OBJEXT): filesystem/$(am__dirstamp) \
 	filesystem/$(DEPDIR)/$(am__dirstamp)
-filesystem/cpp_std_filesystem.$(OBJEXT): filesystem/$(am__dirstamp) \
+filesystem/boost_filesystem.$(OBJEXT): filesystem/$(am__dirstamp) \
 	filesystem/$(DEPDIR)/$(am__dirstamp)
 logger/$(am__dirstamp):
 	@$(MKDIR_P) logger
@@ -374,7 +374,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sensor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sensor_logger_info.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sourvay.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@filesystem/$(DEPDIR)/cpp_std_filesystem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@filesystem/$(DEPDIR)/boost_filesystem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@filesystem/$(DEPDIR)/filesystem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logger/$(DEPDIR)/sourvay_logger.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@logger/$(DEPDIR)/sqlite_logger.Po@am__quote@
