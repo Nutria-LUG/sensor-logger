@@ -1,9 +1,9 @@
 AM_CXXFLGAS = -W -Wall
 LDADD = -lCppUTest -lCppUTestExt
 
-check_PROGRAMS = sensor_logger_test
+check_PROGRAMS = logger
 
-sensor_logger_test_SOURCES =\
+logger_SOURCES =\
 	sensor_logger_test.cc \
 	../src/filesystem/filesystem.cc \
 	../src/sensor_logger_info.cc \

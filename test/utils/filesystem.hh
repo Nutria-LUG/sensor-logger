@@ -89,41 +89,37 @@ private:
 
 class MockedFilesystem : public Filesystem  {
 public:
-    MockedFilesystem(Filesystem *fs) : Filesystem { };
+    MockedFilesystem(Filesystem *fs)
+        : Filesystem(),
+          _fs(fs) { }
+
+
     virtual std::string get_home_path() const noexcept {
         return _fs -> get_home_path();
     }
 
     virtual bool
     exists(const std::string& path) const noexcept {
-        auto elem = _path_existance.find(path);
-        return elem == _path_existance.cend() || elem -> second;
+        return _fs -> exists(path);
     };
 
     virtual bool
     is_valid_path(const std::string& path) const noexcept {
-        auto elem = _path_validity.find(path);
-        return elem== _path_validity.cend() || elem -> second;
+        return _fs -> is_valid_path(path);
     }
 
     virtual bool
     has_write_permission(const std::string& path) const noexcept {
-        auto elem = _write_permissions.find(path);
-        return elem == _write_permissions.cend() || elem -> second;
+        return _fs -> has_write_permission(path);
     }
 
     virtual bool
     has_read_permission(const std::string& path) const noexcept {
-        auto elem = _write_permissions.find(path);
-        return elem == _read_permissions.cend() || elem -> second;
+        return _fs -> has_read_permission(path);
     };
 
-    virtual void
-    create_directories(const std::string& path) {
-        auto elem = _path_existance.find(path);
-        if(elem != _path_existance.cend()) {
-            elem -> second = true;
-        }
+    virtual void create_directories(const std::string& path) {
+        _fs -> create_directories(path);
     };
     
 private:

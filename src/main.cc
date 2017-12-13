@@ -15,8 +15,8 @@
 #include <cstring>
 #include <map>
 
-#include "logger/sourvay_logger.hh"
-#include "logger/sqlite_logger.hh"
+#include "loggers/sourvay_logger.hh"
+#include "loggers/sqlite_logger.hh"
 #include "filesystem/boost_filesystem.hh"
 #include "configuration.hh"
 #include "sensor_logger_info.hh"

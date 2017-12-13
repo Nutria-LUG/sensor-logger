@@ -5,7 +5,7 @@ aclocal.m4
 autom4te.cache/
 autoscan.log
 configure
-depcomb
+depcomp
 install-sh
 missing
 test-driver
