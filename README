@@ -1,5 +1,31 @@
-sensor-logger
-=============
+#sensor-logger
+
+## Dipendenze
+ Per poter compilare il programma è necessario installare i seguenti
+ pacchetti:
+   * build-essential
+   * automake
+   * libsqlite3-dev
+   * libboost-filesystem-dev
+
+## Installazione
+ Una volta installate tutte le dipendenze, andare nella cartella del
+ progetto e lanciare lo script:
+   > ./rebuild.sh
+ Terminata la compilazione, verrà creata la cartella "build". Andare
+ dentro questa cartella:
+   > cd build
+ Infine dare il comando di installazione:
+   > sudo make install
+
+## Configurazione
+ Il programma crea un database sqlite nella posizione indicata nel file
+   ~/.config/sensor-logger/config
+ Se il file non e' presente, viene creato la prima volta che si manda
+ in esecuzione, impostando il database sqlite3 nella posizione:
+   ~/.config/sensor-logger/database.db
+
+## Man
 
 NOME
     sensor-logger - Scrive sul log (data base sqlite) una rilevazione
@@ -62,3 +88,6 @@ ESEMPI
 
 LICENZA
     GPLv3
+
+TEST
+   Testato su Debian8 e Debian9

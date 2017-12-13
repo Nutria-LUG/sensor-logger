@@ -8,4 +8,5 @@ configure
 depcomb
 install-sh
 missing
+test-driver
 build/
