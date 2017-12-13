@@ -1,5 +1,11 @@
 *~
 ./src/**/*~
+*.in
+aclocal.m4
 autom4te.cache/
 autoscan.log
+configure
+depcomb
+install-sh
+missing
 build/

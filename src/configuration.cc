@@ -73,5 +73,14 @@ std::string get_config_file_path(Filesystem& filesystem) {
     std::stringstream ss;
     ss << get_config_folder_path(filesystem)
        << "/" << SensorLoggerInfo::CONFIG_FILE_NAME;
+    std::string file_path = ss.str();
+    if(!filesystem.exists(file_path)) {
+        std::ofstream of(file_path);
+        of << DATABASE_PATH_KEY
+           << "="
+           << get_config_folder_path(filesystem)
+           << "/database.db";
+        of.close();
+    }
     return ss.str();
 }
