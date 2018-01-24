@@ -62,6 +62,7 @@ struct Sourvay {
 
 #include <sstream>
 #include <map>
+#include <iostream>
 
 /*!
  * This function perform the read of sourvays through the input stream

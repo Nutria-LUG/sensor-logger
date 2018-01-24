@@ -14,6 +14,7 @@
 #include <list>
 #include <string>
 #include <sqlite3.h>
+#include <map>
 #include "sourvay_logger.hh"
 #include "../sourvay.hh"
 
@@ -198,7 +199,7 @@ private:
     unsigned long int _sourvay_id;
 
     /*! Boolean value used to know if the sourvay have been added. */
-    bool              _has_add_sourvay;
+    bool _has_add_sourvay;
 };
 
 #endif

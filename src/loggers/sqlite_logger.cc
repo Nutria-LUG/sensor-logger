@@ -3,11 +3,13 @@
 #include <list>
 #include <vector>
 #include <assert.h>
-
 #include "sqlite_logger.hh"
 
+
+#include <iostream>
 namespace __SQLITE__INTERNAL__ {
-  
+
+   
     sqlite3* sqlite_create_connection(const std::string& db_file) {
         sqlite3 *db;
         sqlite3_open(db_file.c_str(), &db);
@@ -51,7 +53,7 @@ namespace __SQLITE__INTERNAL__ {
                                    NULL,
                                    NULL,
                                    &zErrMsg);
-        if(result != SQLITE_OK) {
+        if(result != SQLITE_OK) {            
             throw DataBaseException(result, sqlite3_errmsg(db));
         }
     }    
@@ -103,10 +105,7 @@ void SqliteLogger::log(const Sourvay& sourvay) noexcept {
            sourvay.sensor -> id != "" &&
            sourvay.sensor -> name != "");
     std::stringstream add_table_stmt;
-    
-    if(!_has_add_sourvay) {
-        _has_add_sourvay = true;
-        add_table_stmt << "CREATE TABLE IF NOT EXISTS "
+    add_table_stmt << "CREATE TABLE IF NOT EXISTS "
                        << sourvay.sensor -> name << "("
                        << ID_COLUMN_NAME << " INTEGER PRIMARY KEY,"
                        << SENSOR_TABLE_VALUE_COLUMN
@@ -117,9 +116,10 @@ void SqliteLogger::log(const Sourvay& sourvay) noexcept {
                        << SENSOR_TABLE_SOURVAY_COLUMN << ") "
                        << "REFERENCES " <<  SOURVAYS_TABLE_NAME
                        << "(" << ID_COLUMN_NAME << "))";
-        __SQLITE__INTERNAL__::sqlite_execute_stmt(
-            _db, add_table_stmt.str());
-        
+    __SQLITE__INTERNAL__::sqlite_execute_stmt(
+        _db, add_table_stmt.str());        
+    if(!_has_add_sourvay) {
+        _has_add_sourvay = true;
         std::stringstream insert_sourvay_stmt;
         insert_sourvay_stmt << "INSERT INTO " << SOURVAYS_TABLE_NAME
                             << "(" << ID_COLUMN_NAME << ","
