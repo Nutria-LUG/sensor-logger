@@ -1,6 +1,6 @@
 bin_PROGRAMS = logger
 logger_LDADD =  -lsqlite3 -lboost_system -lboost_filesystem #-lstdc++fs
-#logger_CXXFLAGS = -std=c++14
+logger_CXXFLAGS = -std=c++14
 logger_SOURCES = \
 	main.cc\
 	sensor_logger_info.cc\

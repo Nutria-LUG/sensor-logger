@@ -33,9 +33,4 @@ cd $BUILDDIR
 ../configure --program-prefix sensor-
 make
 
-if [ "$1" eq "--test" ]; then
-    make check
-    ./test/logger
-fi
-
 cd $CURRENT
