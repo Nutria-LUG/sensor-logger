@@ -1,5 +1,4 @@
 #include "sensor_logger_info.hh"
-#include "filesystem/filesystem.hh"
 #include "configuration.hh"
 #include <fstream>
 #include <sstream>
@@ -23,15 +22,28 @@ namespace __CONFIGURATION__INTERNAL__NS__ {
         return result;
     }
 
+    std::string get_default_database_path() { 
+        std::string path(getenv(OPEN_AIR_HOME_ENV));
+        path = path + "/";
+        path = path + OPEN_AIR_DATABASE_NAME;
+        return path;
+    }
 }
 
+std::string get_configuration_file_path() {
+    std::string path(getenv(OPEN_AIR_HOME_ENV));
+    path = path + "/";
+    path = path + OPEN_AIR_CONFIGURATION_FILE_NAME;
+    return path;
+}
 
 ConfigurationData::ConfigurationData()
-    : database_path() { }
+    : database_path(
+        __CONFIGURATION__INTERNAL__NS__::get_default_database_path()) {
+}
 
 ConfigurationData::~ConfigurationData() { }
 
-#include<iostream>
 std::istream& operator>>(std::istream& is,
                          ConfigurationData& config) {
     std::string line;
@@ -52,35 +64,4 @@ std::istream& operator>>(std::istream& is,
         }
     }    
     return is;
-}
-
-
-std::string get_config_folder_path(Filesystem& filesystem) {
-    std::string path(filesystem.get_home_path());
-    path += "/.config";
-    if(!filesystem.exists(path)) {
-        filesystem.create_directories(path);
-    }
-    path += "/";
-    path += SensorLoggerInfo::NAME;
-    if(!filesystem.exists(path)) {
-        filesystem.create_directories(path);
-    }
-    return path;
-}
-
-std::string get_config_file_path(Filesystem& filesystem) {
-    std::stringstream ss;
-    ss << get_config_folder_path(filesystem)
-       << "/" << SensorLoggerInfo::CONFIG_FILE_NAME;
-    std::string file_path = ss.str();
-    if(!filesystem.exists(file_path)) {
-        std::ofstream of(file_path);
-        of << DATABASE_PATH_KEY
-           << "="
-           << get_config_folder_path(filesystem)
-           << "/database.db";
-        of.close();
-    }
-    return ss.str();
 }

@@ -77,7 +77,6 @@ DataBaseException::DataBaseException(
 
 DataBaseException::~DataBaseException() { }
 
-#include <iostream>
 SqliteLogger::SqliteLogger(const std::string& db_file)
     : SourvayLogger(),
       _db(__SQLITE__INTERNAL__::sqlite_create_connection(db_file)),

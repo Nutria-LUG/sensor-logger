@@ -1,5 +1,5 @@
 bin_PROGRAMS = logger
-logger_LDADD =  -lsqlite3 -lboost_system -lboost_filesystem #-lstdc++fs
+logger_LDADD =  -lsqlite3
 logger_CXXFLAGS = -std=c++14
 logger_SOURCES = \
 	main.cc\
@@ -7,7 +7,5 @@ logger_SOURCES = \
 	configuration.cc \
 	sensor.cc \
 	sourvay.cc \
-	filesystem/filesystem.cc\
-	filesystem/boost_filesystem.cc\
 	loggers/sourvay_logger.cc \
 	loggers/sqlite_logger.cc

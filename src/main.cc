@@ -17,7 +17,6 @@
 
 #include "loggers/sourvay_logger.hh"
 #include "loggers/sqlite_logger.hh"
-#include "filesystem/boost_filesystem.hh"
 #include "configuration.hh"
 #include "sensor_logger_info.hh"
 #include "sensor.hh"
@@ -28,9 +27,7 @@ int main(int argc, char** argv) {
     std::list<Sourvay> sourvays;
     create_sensors(std::back_inserter(available_sensors));
 
-    BoostFilesystem fs;
-    auto config_file = get_config_file_path(fs);
-    std::ifstream is(config_file);
+    std::ifstream is(get_configuration_file_path());
     ConfigurationData config;
     is >> config;
 

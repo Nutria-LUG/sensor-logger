@@ -9,40 +9,21 @@
 
 #include <string>
 #include <istream>
-#include "filesystem/filesystem.hh"
 
 #ifndef CONFIGURATION_INCLUDE_GUARD_HH
 #define CONFIGURATION_INCLUDE_GUARD_HH 1
 
-/*!
- * \brief Get the configuraiton folder
- * Gets the configuration folder of the system. It is located in
- * HOME_ENV/.config/APPLICATION_NAME where:
- *  - HOME_ENV:         Is the home folder returned by the filesystem
- *                      implementation.
- *  - APPLICATION_NAME: Name of the application.
- * \param filesystem - Filesystem implementation used to perform the
- *                     dependents operations (such as get of the home
- *                     env).
- * If the folder does not exists, it will be created.
- * \return A string that contains the path of the configuration
- *         folder.
- */
-std::string get_config_folder_path(Filesystem& filesystem);
+#define OPEN_AIR_CONFIGURATION_FILE_NAME ".openair"
+#define OPEN_AIR_DATABASE_NAME           ".openair.db"
+#define OPEN_AIR_HOME_ENV                "HOME"
+
+std::string get_configuration_file_path();
 
 /*!
- * \brief Get the configuration file.
- * Gets the configuration file. It is located in 
- * HOME_ENV/.config/APPLICATION_NAME/configuration where:
- *  - HOME_ENV:         Is the home folder returned by the filesystem
- *                      implementation.
- *  - APPLICATION_NAME: Name of the application.
- * If the path to the file is not found, it will be created (this
- * function calls get_config_folder_path function).
- * \return A string that contains the path of the configuration
- *         file.
+ * This macro represent the key value of the data base path in the
+ * configuration file.
  */
-std::string get_config_file_path(Filesystem& filesystem);
+#define DATABASE_PATH_KEY "data_base_path"
 
 /*!
  * Data struct that contains the configuration informations.
@@ -60,12 +41,6 @@ struct ConfigurationData {
     /*! Default destructor. */
     ~ConfigurationData();
 };
-
-/*!
- * This macro represent the key value of the data base path in the
- * configuration file.
- */
-#define DATABASE_PATH_KEY "data_base_path"
 
 /*!
  * \brief This is the operator>> overloading used to initialize the
