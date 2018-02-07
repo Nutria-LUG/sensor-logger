@@ -6,17 +6,32 @@
  * \copyright GNU Public License
  */
 
-
 #include <string>
 #include <istream>
 
 #ifndef CONFIGURATION_INCLUDE_GUARD_HH
 #define CONFIGURATION_INCLUDE_GUARD_HH 1
 
+/*!
+ * This macro contains the name of the openair configuration file.
+ */
 #define OPEN_AIR_CONFIGURATION_FILE_NAME ".openair"
+
+/*!
+ * This macro contains the name of the openair database to use.
+ */
 #define OPEN_AIR_DATABASE_NAME           ".openair.db"
+
+/*!
+ * This macro contains the ENV code used to represent the home folder
+ * in the current system (see getenv standard function).
+ */
 #define OPEN_AIR_HOME_ENV                "HOME"
 
+/*!
+ * Gets the configuration file path used by the sensor-logger.
+ *\return A string that represent the path to the configuarion file.
+ */
 std::string get_configuration_file_path();
 
 /*!
