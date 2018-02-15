@@ -30,7 +30,7 @@ cd $DIR
 ./autogen.sh
 
 cd $BUILDDIR
-../configure --program-prefix sensor-
+../configure
 make
 
 cd $CURRENT

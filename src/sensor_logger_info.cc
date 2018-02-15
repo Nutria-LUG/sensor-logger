@@ -2,7 +2,7 @@
 #include "sensor_logger_info.hh"
 
 const char* SensorLoggerInfo::NAME  = "sensor-logger";
-const char* SensorLoggerInfo::VERSION_NUMBER  = "1.0.0";
+const char* SensorLoggerInfo::VERSION_NUMBER  = "1.1.0";
 const char* SensorLoggerInfo::CONFIG_FILE_NAME  = "config";
 const char* SensorLoggerInfo::LICENSE = "GPLv3";
 
