@@ -4,7 +4,6 @@
 #include <istream>
 
 namespace __CONFIGURATION__INTERNAL__NS__ {
-
     std::string trim(std::string const& source,
                      char const* delims = " \t\r\n") {
         std::string result(source);
@@ -63,4 +62,21 @@ std::istream& operator>>(std::istream& is,
         }
     }    
     return is;
+}
+
+
+namespace __CONFIGURATION__INTERNAL__NS__ {
+    bool initialized = false;
+}
+const ConfigurationData& get_configuration() {
+    static ConfigurationData data;
+    if(!__CONFIGURATION__INTERNAL__NS__::initialized) {
+        __CONFIGURATION__INTERNAL__NS__::initialized = true;
+        std::string path(getenv(OPEN_AIR_HOME_ENV));
+        path = path + "/";
+        path = path + OPEN_AIR_CONFIGURATION_FILE_NAME;
+        std::fstream config_file(path);
+        config_file >> data;
+    }
+    return data;
 }

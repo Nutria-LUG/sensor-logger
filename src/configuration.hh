@@ -15,7 +15,7 @@
 /*!
  * This macro contains the name of the openair configuration file.
  */
-#define OPEN_AIR_CONFIGURATION_FILE_NAME ".openair"
+#define OPEN_AIR_CONFIGURATION_FILE_NAME ".openair.conf"
 
 /*!
  * This macro contains the name of the openair database to use.
@@ -77,4 +77,15 @@ struct ConfigurationData {
  */
 std::istream& operator>>(std::istream& is, ConfigurationData& config);
 
+/*!
+ * \brief Gets the configuration of the application.
+ *
+ * This functions builds and retrieve the configuration of the
+ * application getting it by file .openair.conf in the home folder.
+ * Configuration file is read only first time, then data informations
+ * are cached. In this way you can call this getter function each time
+ * you need don't caring about performance.
+ * \return Const reference to the configuration object.
+ */
+const ConfigurationData& get_configuration();
 #endif
