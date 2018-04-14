@@ -1,4 +1,3 @@
-#include "sensor_logger_info.hh"
 #include "configuration.hh"
 #include <fstream>
 #include <sstream>
