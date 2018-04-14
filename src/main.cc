@@ -9,17 +9,25 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
+#include <string.h>
+#include <iterator>
+
 #include "configuration.hh"
 #include "sqlite_logger.hh"
+#include "sensor_logger_info.hh"
 
 int main(int argc, char* argv[]) {
-    if(argc == 2 && strcmp(argv[1], "--log") == 0) {
-        std::ifstream is(get_configuration_file_path());
-        ConfigurationData config;
-        is >> config;
-        SqliteLogger logger(config.database_path);
-        logger.log(std::cin);
-        
+    SqliteLogger logger("");
+    if (argc >= 2) {
+        if(strcmp(argv[1], "--version") == 0) {
+            out_informations(std::cout);
+        } else {
+            logger.log(argv + 1, argv + argc - 1);
+        }
+    } else {
+        std::istream_iterator<std::string> begin(std::cin);
+        std::istream_iterator<std::string> end;
+        logger.log(begin, end);
     }
     return 0;
 }
