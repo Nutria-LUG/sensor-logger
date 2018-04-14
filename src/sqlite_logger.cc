@@ -29,9 +29,6 @@ SqliteLogger::~SqliteLogger() {
 }
 
 void SqliteLogger::_execute(const std::string& stmt) {
-    std::cout << "Executing: \n"
-              << stmt
-              << "\n" << std::endl;
     char *zErrMsg = 0;
     auto result = sqlite3_exec(_db,
                                stmt.c_str(),
