@@ -8,7 +8,7 @@ std::ostream& operator<<(std::ostream& os,
     os << informations.name << " " << informations.version << "\n"
        << "License " << informations.license
        << "GNU GPL version 3 or later "
-       << "<http:://gnu.org/license/gpl.html>\n"
+       << "<http://gnu.org/license/gpl.html>\n"
        << "This is a free software: you are free to change and "
        << "redistribute it.\n"
        << "There is NO WARRANTY, to the extent permitted law.";

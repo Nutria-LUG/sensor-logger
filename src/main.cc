@@ -25,8 +25,7 @@ int main(int argc, char* argv[]) {
                 Informations infos;
                 std::cout << infos << std::endl;
             } else {
-                logger.log(argv + 1, argv + argc - 1);
-            
+                logger.log(argv + 1, argv + argc - 1);            
             }
         } else {
             std::istream_iterator<std::string> begin(std::cin);
