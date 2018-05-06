@@ -22,7 +22,8 @@ int main(int argc, char* argv[]) {
         SqliteLogger logger(config.database_path);
         if (argc >= 2) {
             if(strcmp(argv[1], "--version") == 0) {
-                out_informations(std::cout);
+                Informations infos;
+                std::cout << infos << std::endl;
             } else {
                 logger.log(argv + 1, argv + argc - 1);
             

@@ -25,25 +25,44 @@
  */
 
 #include <ostream>
+#include <string>
 
 #ifndef SENSOR_LOGGER_INFO_INCLUDE_GUARD
 #define SENSOR_LOGGER_INFO_INCLUDE_GUARD 1
 
-/*! Name of the program. */
-#define NAME    "sensor-logger"
-/*! Current version. */
-#define VERSION "2.0.0"
-/*! Author.. */
-#define AUTHOR  "NutriaLUG"
-/*! License of this software */
-#define LICENSE "GPLv3+"
+/*!
+ * This struct contains the informations about this program.
+ * It is used to print that informations when required.
+ */
+struct Informations {
+    /*! Name of the program. */
+    const std::string name    = "sensor-logger";
+    /*! Current version. */
+    const std::string version = "2.1.0";
+    /*! Author. */
+    const std::string author  = "NutriaLUG";
+    /*! License of this software. */
+    const std::string license = "GPLv3+";
+
+    /*! Default constructor. */
+    Informations();
+    /*! Default destructor. */
+    ~Informations();
+};
 
 /*!
- * Put in the output stream passed as parameter the informations about
- * this program.
- * \param os - output stream where put the informations.
+ * operator<< overloading used to print the inforamtions stored inside
+ * the struct passed.
+ *
+ * \param os           - output stream used to print out the
+ *                       informations stred in the struct passed as
+ *                       parameter.
+ * \param informations - Informations structure to print.
+ * \return The ostream reference passed as parameter to perform
+ *         operator chaining.
  */
-void out_informations(std::ostream& os);
+std::ostream& operator<<(std::ostream& os,
+                         const Informations& informations);
 
 #endif
 
