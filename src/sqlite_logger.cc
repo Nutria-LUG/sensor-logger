@@ -8,19 +8,36 @@ namespace __SQLITE__INTERNAL__ {
         sqlite3_open(db_file.c_str(), &db);
         return db;
     }
+    
+    void create_surveys_table_cmd(std::ostream& os) {
+        os << "CREATE TABLE IF NOT EXISTS "
+           << SURVEYS_TABLE_NAME << " ("
+           << ID_COLUMN_NAME << " INTEGER PRIMARY KEY,"
+           << SENSOR_COLUMN_NAME << " TEXT NOT NULL,"
+           << VALUE_COLUMN_NAME << " REAL NOT NULL,"
+           << TIMESTAMP_COLUMN_NAME
+           << " INTEGER NOT NULL);";
+    }
+
+    void create_errors_table_cmd(std::ostream& os) {
+        os << "CREATE TABLE IF NOT EXISTS "
+           << ERRORS_TABLE_NAME << " ("
+           << ID_COLUMN_NAME << " INTEGER PRIMARY KEY,"
+           << VALUE_COLUMN_NAME << " TEXT NOT NULL,"
+           << TIMESTAMP_COLUMN_NAME
+           << " INTEGER NOT NULL);";
+    }
 }
 
 SqliteLogger::SqliteLogger(const std::string& db_path)
     : _db(__SQLITE__INTERNAL__::create_connection(db_path)){
     
     std::stringstream ss;
-    ss << "CREATE TABLE IF NOT EXISTS "
-       << _table_name << " ("
-       << _id_column_name << " INTEGER PRIMARY KEY,"
-       << _sensor_column_name << " TEXT NOT NULL,"
-       << _value_column_name << " REAL NOT NULL,"
-       << _timestamp_column_name << " INTEGER NOT NULL,"
-       << _sent_flag_column_name << " INTEGER NOT NULL);";
+    __SQLITE__INTERNAL__::create_surveys_table_cmd(ss);
+    _execute(ss.str());
+        
+    ss.clear();
+    __SQLITE__INTERNAL__::create_errors_table_cmd(ss);
     _execute(ss.str());
 }
 

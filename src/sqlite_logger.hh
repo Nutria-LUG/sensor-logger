@@ -24,13 +24,42 @@
  * used to perform surveys log in a sqlite3 data base.
  */
 
+#include <sqlite3.h>
+#include <string>
+#include <istream>
 
 #ifndef SQLITE_LOGGER_INCLUDE_GUARD
 #define SQLITE_LOGGER_INCLUDE_GUARD 1
 
-#include <sqlite3.h>
-#include <string>
-#include <istream>
+/*!
+ * This is the code used to identify a log operation, this means that
+ * log to have been performed in SURVEYS_TABLE_NAME table.
+ */
+#define LOG_CODE "log:"
+
+/*!
+ * This macro is uused to identify an error log operation, this means
+ * that log to have been performed in ERRORS_TABLE_NAME.
+ */
+#define ERROR_CODE "error:"
+
+/*! Name of the survays table. */
+#define SURVEYS_TABLE_NAME "surveys"
+
+/*! Name of the errors table. */
+#define ERRORS_TABLE_NAME "errors"
+
+/*! Name of the id column. */
+#define ID_COLUMN_NAME "id"
+
+/*! Name of the id column. */
+#define SENSOR_COLUMN_NAME "sensor"
+
+/*! Name of the id column. */
+#define VALUE_COLUMN_NAME "value"
+
+/*! Name of the id column. */
+#define TIMESTAMP_COLUMN_NAME "timestamp"
 
 /*! This is the class used to perform the log of sensor sourveys. */
 class SqliteLogger {
@@ -81,62 +110,95 @@ private:
     void _execute(const std::string& stmt);
     
     /*! Pointer to the sqlite3 data base connector. */
-    sqlite3           *_db;
-    /*! Name of the survays table. */
-    const std::string _table_name = "surveys";
-    /*! Name of the id column. */
-    const std::string _id_column_name = "id";
-    /*! Name of the id column. */
-    const std::string _sensor_column_name = "sensor";
-    /*! Name of the id column. */
-    const std::string _value_column_name = "value";
-    /*! Name of the id column. */
-    const std::string _timestamp_column_name = "timestamp";
-    /*! Name of the id column. */
-    const std::string _sent_flag_column_name = "sentflag";
+    sqlite3 *_db;
 };
 
 #include <ctime>
 #include <sstream>
+
+inline bool is_log_code(const std::string& str) {
+    return str == LOG_CODE || str == ERROR_CODE;
+}
+    
+template<class ForwardIterator>
+void add_survey_values_to_cmd(ForwardIterator& itr,
+                              std::ostream& sql_cmd,
+                              const std::time_t& timestamp) {
+    sql_cmd << "(NULL,\""
+            << *itr << "\",";
+    ++itr;
+    sql_cmd << *itr << "," << timestamp << ")";
+    ++itr;
+}
+
+template<class ForwardIterator>
+void add_error_values_to_cmd(ForwardIterator& itr,
+                             ForwardIterator end,
+                             std::ostream& sql_cmd,
+                             const std::time_t& timestamp) {
+    sql_cmd << "(NULL,\"";
+    while(itr != end && !is_log_code(*itr)) {
+        sql_cmd << *itr << " ";
+        ++itr;
+    }
+    sql_cmd << "\"," << timestamp << ")";
+}
+
 template<class ForwardIterator>
 void SqliteLogger::log(ForwardIterator begin, ForwardIterator end) {
     std::time_t t;
     std::time(&t);
-    bool first = true;
+    bool has_survays = false;
+    bool has_errors = false;
     std::string str;
-    std::stringstream ss;
-    ss << "INSERT INTO "
-       << _table_name << "("
-       << _id_column_name << ","
-       << _sensor_column_name << ","
-       << _value_column_name << ","
-       << _timestamp_column_name << ","
-       << _sent_flag_column_name << ")VALUES";
+    std::stringstream survays;
+    std::stringstream errors;
+    survays << "INSERT INTO "
+            << SURVEYS_TABLE_NAME << "("
+            << ID_COLUMN_NAME << ","
+            << SENSOR_COLUMN_NAME << ","
+            << VALUE_COLUMN_NAME << ","
+            << TIMESTAMP_COLUMN_NAME << ")VALUES";
 
+    errors << "INSERT INTO "
+           << ERRORS_TABLE_NAME << "("
+           << ID_COLUMN_NAME << ","
+           << VALUE_COLUMN_NAME << ","
+           << TIMESTAMP_COLUMN_NAME << ")VALUES";
+    
     while(begin != end) {
-        if(!first) {
-            ss << ",";
-        } else {
-            first = false;
-        }
-        ss << "(NULL,\""
-           << *begin << "\",";
-        if(begin == end) {
-            throw "invalid stream";
-        }
-        ++begin;
-        ss << *begin << "," << t << ",0)";
-
-        // This is need for pointer usage.
-        if(begin != end) {
+        if (*begin == LOG_CODE) {
+            if(has_survays) {
+                survays << ",";
+            }
+            has_survays = true;
             ++begin;
-        }
-        
+            add_survey_values_to_cmd(
+                begin,
+                survays,
+                t);
+        } else if (*begin == ERROR_CODE) {
+            if(has_errors) {
+                errors << ",";
+            }
+            has_errors = true;
+            ++begin;
+            add_error_values_to_cmd(
+                begin,
+                end,
+                errors,
+                t);
+        } else {
+            throw "invalid stream";
+        }        
     }
-    ss << ";";
-    if(!first) {
-        _execute(ss.str());
+    survays << ";";
+    errors << ";";
+    if(has_survays) {
+        _execute(survays.str());
+    }
+    if(has_errors) {
+        _execute(errors.str());
     }
 }
-
 #endif
