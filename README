@@ -7,6 +7,8 @@
    * automake
    * libsqlite3-dev
 
+ Inoltre e' necessaria la librerira comune: libopenair
+
 ## Installazione
  Una volta installate tutte le dipendenze, andare nella cartella del
  progetto e dare i comandi:
@@ -18,9 +20,6 @@
 ## Configurazione
  Il programma crea un database sqlite nella posizione indicata nel file
    ~/.openair.conf
- Se il file non e' presente, viene creato il database sqlite3 nella
- posizione:
-   ~/.openair.db
 
 ## Man
 

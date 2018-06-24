@@ -1,0 +1,16 @@
+INSTALL
+=======
+
+## REQUIREMENTS
+
+To install libopenair you need following packages:
+  > sudo apt install build-essential automake libsqlite3-dev
+
+You need also libopenair (see its documentation to install it).
+
+## BUILD
+
+ Give following commands:
+   > ./configure
+   > make
+   > sudo make install
