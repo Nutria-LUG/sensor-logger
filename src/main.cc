@@ -7,18 +7,21 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include <cstring>
 #include <string.h>
 #include <iterator>
-
-#include "configuration.hh"
+#include <libopenair/configuration.hh>
 #include "sqlite_logger.hh"
 #include "sensor_logger_info.hh"
 
-
 int main(int argc, char* argv[]) {
     try {
-        auto config = get_configuration();
+        openair::ConfigurationData config;
+        std::fstream config_file(
+            openair::get_configuration_file_path());
+        config_file >> config;                         
+        
         SqliteLogger logger(config.database_path);
         if (argc >= 2) {
             if(strcmp(argv[1], "--version") == 0) {
